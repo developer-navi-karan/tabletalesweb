@@ -17,8 +17,8 @@ Future<void> main() async {
   setupDialogUi();
   setupBottomSheetUi();
   await Supabase.initialize(
-    url: "https://zihvvvbxnpbnokvzkukp.supabase.co",
-    publishableKey: "sb_publishable_aHth1T4KXtbGSoODlEZCOg_grUZsSiI",
+    url: const String.fromEnvironment('SUPABASE_URL'),
+    publishableKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
   );
 
   runApp(const MainApp());
