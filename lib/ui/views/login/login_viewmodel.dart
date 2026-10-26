@@ -6,6 +6,7 @@ import 'package:tabletalesweb/app/app.locator.dart';
 import 'package:tabletalesweb/app/app.router.dart';
 import 'package:tabletalesweb/domain/auth/auth_failure.dart';
 import 'package:tabletalesweb/services/auth_service.dart';
+import 'package:tabletalesweb/services/supabase_service.dart';
 import 'package:tabletalesweb/ui/common/app_colors.dart';
 import 'package:tabletalesweb/ui/views/login/login_view.form.dart';
 import 'package:toastification/toastification.dart';
@@ -13,6 +14,7 @@ import 'package:toastification/toastification.dart';
 class LoginViewModel extends FormViewModel {
   final _navigationService = locator<RouterService>();
   final _authService = locator<AuthService>();
+  final _supabaseService = locator<SupabaseService>();
   bool stayLoggedIn = true;
   bool isLoading = false;
 
@@ -36,7 +38,19 @@ class LoginViewModel extends FormViewModel {
   }
 
   void navigateToHome() {
-    _navigationService.replaceWithHomeView();
+    if (_supabaseService.supabaseAuth.currentUser?.id ==
+        const String.fromEnvironment('ADMIN_UID')) {
+      _navigationService.replaceWithHomeView();
+      showToast(
+          type: ToastificationType.success,
+          title: "User logged-in successfully",
+          description: "Access content management system.");
+    } else {
+      showToast(
+          type: ToastificationType.info,
+          title: 'Missing Admin Privileges',
+          description: 'You need admin privileges to login');
+    }
   }
 
   Future<Either<AuthFailure, Unit>> login(

@@ -182,12 +182,6 @@ class LoginViewDesktop extends ViewModelWidget<LoginViewModel> with $LoginView {
                                         );
                                       }, (r) async {
                                         viewModel.navigateToHome();
-                                        viewModel.showToast(
-                                            type: ToastificationType.success,
-                                            title:
-                                                "User logged-in successfully",
-                                            description:
-                                                "Access content management system.");
                                       });
                                     });
                                   },
